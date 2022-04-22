@@ -2,10 +2,10 @@ dist: trusty
 
 language: python
 
-branches:
-  only:
-  - gh-pages
-  - /.*/
+#branches:
+#  only:
+#  - gh-pages
+#  - /.*/
 
 # specify the python versions for which you want to run travis
 python:
@@ -48,7 +48,7 @@ jobs:
       deploy:
         - provider: pages
           skip_cleanup: true
-          repo: AI4SCR-DEV/dataset
+          repo: art-zurich/blueprint-python-package
           github_url: github.ibm.com  # defaults to github.com
           github_token: $GITHUB_TOKEN
           local_dir: docs/_build/html
