@@ -18,9 +18,9 @@ sys.path.insert(0, os.path.abspath(".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "blueprint"
+project = "dataset"
 copyright = "IBM Corp. 2022"
-author = "IBM blueprint team"
+author = "IBM dataset team"
 
 # -- Generate API (auto) documentation ------------------------------------------------
 

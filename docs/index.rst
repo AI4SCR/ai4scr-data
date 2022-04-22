@@ -1,4 +1,4 @@
-Python Blueprint Repository
+Python dataset Repository
 ___________________________
 The ``index.rst`` document is our landing page.
 
@@ -10,14 +10,4 @@ ___
     intro
     api
     references
-    blueprint_api/blueprint.rst
-
-.. note::
-
-   This is a note
-
-.. warning::
-    This is a warning
-
-.. versionadded:: 2.5
-   The *spam* parameter.
+    dataset_api/dataset.rst

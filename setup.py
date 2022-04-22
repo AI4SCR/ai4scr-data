@@ -38,24 +38,22 @@ except FileNotFoundError:
     print("requirements.txt not found.")
     VCS_REQUIREMENTS = []
 
-# TODO: Update these values according to the name of the module.
 setup(
-    name="blueprint",
-    version=read_version("blueprint/__init__.py"),  # single place for version
-    description="Installable blueprint package. Modify as needed.",
+    name="dataset",
+    version=read_version("dataset/__init__.py"),  # single place for version
+    description="Generic dataset package.",
     long_description=open("README.md").read(),
-    url="https://github.ibm.com/art-zurich/blueprint-python-package",
+    url="https://github.ibm.com/AI4SCR-DEV/dataset",
     author="Adriano Martinelli",
     author_email="art@zurich.ibm.com",
     # the following exclusion is to prevent shipping of tests.
     # if you do include them, add pytest to the required packages.
     packages=find_packages(".", exclude=["*tests*"]),
-    package_data={"blueprint": ["py.typed"]},
+    package_data={"dataset": ["py.typed"]},
     entry_points="""
         [console_scripts]
-        salutation=blueprint.complex_module.core:formal_introduction
     """,
-    scripts=["bin/brief_salutation", "bin/a_shell_script"],
+    scripts=[],
     extras_require={
         "vcs": VCS_REQUIREMENTS,
         "test": ["pytest", "pytest-cov"],
@@ -80,6 +78,6 @@ setup(
         # versions should be very loose here, just exclude unsuitable versions
         # because your dependencies also have dependencies and so on ...
         # being too strict here will make dependency resolution harder
-        "click",
+        'tqdm'
     ],
 )

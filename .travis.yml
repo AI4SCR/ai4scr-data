@@ -1,9 +1,5 @@
 dist: trusty
 
-# add services you need
-services:
-  - docker
-
 language: python
 
 # specify the python versions for which you want to run travis
@@ -20,23 +16,17 @@ install:
 
 script:
   # test import
-  - python -c "import blueprint"
-
-  # ensure installed commands helps run successfully
-  # (add as required)
-  - salutation --help
-  - brief_salutation --help
-  - a_shell_script
+  - python -c "import dataset"
 
   # run unit tests
-  - python -m pytest -sv --cov=blueprint --cov-fail-under=25
+  - python -m pytest -sv --cov=dataset --cov-fail-under=25
 
   # static type checking
-  - python -m mypy blueprint
+  - python -m mypy dataset
 
   # style checking
-  - python -m black blueprint --check --diff --color
-  - python -m flake8 blueprint  # check config file .flake8
+  - python -m black dataset --check --diff --color
+  - python -m flake8 dataset  # check config file .flake8
 
 # the following stages only start if the "test" stage above all succeed
 jobs:
@@ -54,30 +44,9 @@ jobs:
       deploy:
         - provider: pages
           skip_cleanup: true
-          #          repo: histocartography/athena
           github_url: github.ibm.com  # defaults to github.com
-          # specifiy the repo on under the github_url you want to provide docs for, defaults to the repo that is pushed
-          #          repo: art-zurich/blueprint-python-package
           github_token: $GITHUB_TOKEN
-          # Set in the settings page of your repository, as a secure variable
-          # see https://docs.travis-ci.com/user/deployment/pages/#setting-the-github-token
           local_dir: docs/_build/html
-          on:
-            branch: master
-    # delete if Docker is not used
-    - stage: Docker
-      services: docker
-      before_install: skip
-      install: skip
-      before_script: skip
-      script:
-        # check docker build and test inside
-        - docker build -t blueprint:test .
-        - docker run --rm -t blueprint:test python -m pytest -sv
-      deploy:
-        - provider: script
-          skip_cleanup: true
-          script: bash .travis/deploy.sh
           on:
             branch: master
 
@@ -85,5 +54,5 @@ notifications:
   slack:
     rooms:
       - ibm-research:8xgXYHtZJVPKNvu2ON4xbrbZ  # generate here https://ibm-research.slack.com/apps/new/A0F81FP4N-travis-ci
-    on_success: always
+    on_success: false
     on_failure: always
