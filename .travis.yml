@@ -43,16 +43,16 @@ jobs:
       deploy:
         - provider: pages
           skip_cleanup: true
-          repo: ai4scr
+          repo: ai4scr/dataset
           github_url: github.ibm.com  # defaults to github.com
           github_token: $GITHUB_TOKEN
           local_dir: docs/_build/html
           on:
             branch: master
 
-notifications:
-  slack:
-    rooms:
-      - ibm-research:8xgXYHtZJVPKNvu2ON4xbrbZ  # generate here https://ibm-research.slack.com/apps/new/A0F81FP4N-travis-ci
-    on_success: false
-    on_failure: always
+#notifications:
+#  slack:
+#    rooms:
+#      - ibm-research:z9S4zBzMdiTWeLeqO0kOl4TJ  # generate here https://ibm-research.slack.com/apps/new/A0F81FP4N-travis-ci
+#    on_success: false
+#    on_failure: always
