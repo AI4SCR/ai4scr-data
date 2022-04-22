@@ -5,7 +5,6 @@ language: python
 # specify the python versions for which you want to run travis
 python:
   - 3.8
-  - 3.7
 
 install:
   # install the package
@@ -19,14 +18,14 @@ script:
   - python -c "import dataset"
 
   # run unit tests
-  - python -m pytest -sv --cov=dataset --cov-fail-under=25
+  #- python -m pytest -sv --cov=dataset --cov-fail-under=25
 
   # static type checking
-  - python -m mypy dataset
+  #- python -m mypy dataset
 
   # style checking
-  - python -m black dataset --check --diff --color
-  - python -m flake8 dataset  # check config file .flake8
+  #- python -m black dataset --check --diff --color
+  #- python -m flake8 dataset  # check config file .flake8
 
 # the following stages only start if the "test" stage above all succeed
 jobs:
