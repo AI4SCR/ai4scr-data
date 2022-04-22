@@ -2,6 +2,11 @@ dist: trusty
 
 language: python
 
+branches:
+  only:
+  - gh-pages
+  - /.*/
+
 # specify the python versions for which you want to run travis
 python:
   - 3.8
