@@ -43,7 +43,7 @@ jobs:
       deploy:
         - provider: pages
           skip_cleanup: true
-          repo: ai4scr/dataset
+          repo: AI4SCR-DEV/dataset
           github_url: github.ibm.com  # defaults to github.com
           github_token: $GITHUB_TOKEN
           local_dir: docs/_build/html
