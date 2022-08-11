@@ -3,25 +3,40 @@ from abc import ABC, abstractmethod
 from pathlib import Path
 from urllib import request
 
-from .typing import Optional, PathLike, Callable, get_args
+from .typing import Optional, PathLike, Callable, get_args, List, Union
 
 ROOT = Path('~/.ai4scr/datasets/').expanduser()
 ROOT.mkdir(parents=True, exist_ok=True)
 
 class DataSet(ABC):
+    """Generic dataset class. Manages download of raw data and supports different ways of processing the raw data
+    based on so called `recipes`."""
 
     def __init__(self,
                  name: str,
                  module: str,
                  url: str,
-                 dtype: str,
+                 extension: Optional[str] = None,
                  description: Optional[str] = None,
                  path: Optional[PathLike] = None):
+        """Generic dataset class.
 
-        self.name = name.lower()
-        self.module = module.lower()
+        Args:
+            name: name of the dataset used to store the raw data
+            module: name of the module that is used to create this dataset
+            url: download url for raw data
+            extension: extension of downloaded file
+            description: description of the dataset
+            path: directory path where the raw and processed files should be stored
+
+        Notes:
+
+        """
+
+        self.name = self._standardize_names(name)
+        self.module = self._standardize_names(module)
         self.url = url
-        self.dtype = dtype if dtype[0] == '.' else '.' + dtype
+        self.extension = extension if extension[0] == '.' else '.' + extension
         self.description = description
 
         if path is None:
@@ -31,7 +46,7 @@ class DataSet(ABC):
             path = Path(path)
         self.path = path
 
-        self.fpath = self.path / (self.name + self.dtype)
+        self.fpath = self.path / (self.name + self.extension)
 
     @property
     def path(self) -> Path:
@@ -42,6 +57,7 @@ class DataSet(ABC):
         if isinstance(value, get_args(PathLike)):
             if Path(value).is_dir():
                 self._path = Path(value)
+                self.fpath = self.path / (self.name + self.extension)  # update fpath
             else:
                 raise ValueError(f'provided path {value} is not a directory.')
         else:
@@ -110,18 +126,41 @@ class DataSet(ABC):
 
     @abstractmethod
     def load(self):
-        """load raw data as downloaded"""
-        pass
+        """load and return raw data as downloaded"""
+        return None
 
     @abstractmethod
     def rload(self, recipe):
-        """load cached recipe"""
-        pass
+        """load and return cached recipe"""
+        return None
 
     @abstractmethod
     def rsave(self, data, recipe):
         """save processed raw data"""
         pass
+
+    @abstractmethod
+    def recipe_default(self, raw_data, **kwargs):
+        """Example recipe. Return a processed version of the raw data
+
+        Args:
+            raw_data: the raw data as returned by the `load` function
+            **kwargs: kwargs for processing, can be passed from :meth:`get_data`
+
+        Returns:
+            processed data in a customer defined format
+
+        Examples:
+            Assuming the raw data comes as a :class:`~pandas.DataFrame`
+
+            .. code-block:: python
+
+            data = defaultdict(dict)
+            data['targets'] = raw_data[['Y']]
+            data['inputs'] = raw_data[['X']]
+
+        """
+        return data
 
     @staticmethod
     def _download_progress(fpath: Path, url):
@@ -153,12 +192,17 @@ class DataSet(ABC):
                 fpath.unlink()
             raise
 
+
     @staticmethod
-    def _download(fpath: Path, url) -> None:
-        try:
-            path, rsp = request.urlretrieve(url, fpath)
-        except (KeyboardInterrupt, Exception):
-            # Make sure file doesn’t exist half-downloaded
-            if path.is_file():
-                path.unlink()
-            raise
+    def _standardize_names(names: Union[List[str], str]):
+        """replace white spaces with underscore and convert to lower"""
+        def standardize_name(name: str):
+            return '_'.join(name.lower().split())
+
+        if isinstance(names, list):
+            names = [standardize_name(i) for i in names]
+        elif isinstance(names, str):
+            names = standardize_name(names)
+        else:
+            raise TypeError(f'{names} should be of type str or List[str]')
+        return names
