@@ -44,7 +44,7 @@ class SimpleDiskDataset(BaseDataset):
 
 
 class SimpleDownloadDataset(SimpleInMemoryDataset, DownloadMixIn):
-    url = 'http://ml-flow.tracking.zc2.ibm.com:8000/data.csv'
+    url = 'https://raw.github.ibm.com/AI4SCR-DEV/dataset/master/test.csv?token=AACPXJWSHH5GNYJZO4WANW3C7235G'
 
     def __init__(self, path: str = Path('~/tmp/download_data.csv').expanduser()):
         self.path = path  # set path before calling super as this is consumed by the mixin
