@@ -17,15 +17,6 @@ script:
   # test import
   - python -c "import dataset"
 
-  # run unit tests
-  #- python -m pytest -sv --cov=dataset --cov-fail-under=25
-
-  # static type checking
-  #- python -m mypy dataset
-
-  # style checking
-  #- python -m black dataset --check --diff --color
-  #- python -m flake8 dataset  # check config file .flake8
 
 # the following stages only start if the "test" stage above all succeed
 jobs:
@@ -43,7 +34,7 @@ jobs:
       deploy:
         - provider: pages
           skip_cleanup: true
-          repo: art-zurich/blueprint-python-package
+          repo: ai4scr/dataset-dev
           github_url: github.ibm.com  # defaults to github.com
           github_token: $GITHUB_TOKEN
           local_dir: docs/_build/html

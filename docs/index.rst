@@ -1,13 +1,15 @@
-Python dataset Repository
-___________________________
-The ``index.rst`` document is our landing page.
+.. ai4scr-dataset documentation master file, created by
+   sphinx-quickstart on Mon Sep  5 16:33:13 2022.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-API
-___
+Welcome to ai4scr-dataset's documentation!
+==========================================
+
 .. toctree::
-    :maxdepth: 2
+   :hidden:
+   :maxdepth: 2
+   :caption: Contents
 
-    intro
-    api
-    references
-    dataset_api/dataset.rst
+   api
+   quickstart

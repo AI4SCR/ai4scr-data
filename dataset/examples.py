@@ -1,3 +1,5 @@
+"""Examples demonstrating how to use the base class and mixins to create custom dataset classes"""
+
 from pathlib import Path
 
 import pandas as pd
@@ -43,7 +45,22 @@ class SimpleDiskDataset(BaseDataset):
             self.files = list(p.glob('*.txt'))
 
 
-class SimpleDownloadDataset(SimpleInMemoryDataset, DownloadMixIn):
+class SimpleDownloadDS(BaseDataset, DownloadMixIn):
+    path = Path('~/tmp/test.csv').expanduser()  # location where the file is downloaded to
+    url = 'https://raw.github.ibm.com/AI4SCR-DEV/dataset/master/test.csv?token=AACPXJWSHH5GNYJZO4WANW3C7235G'
+    data = None
+
+    def __getitem__(self, index):
+        return self.data.iloc[index]
+
+    def __len__(self):
+        return len(self.data)
+
+    def setup(self):
+        self.data = pd.read_csv(self.path)
+
+
+class SimpleDownloadDatasetSubclass(SimpleInMemoryDataset, DownloadMixIn):
     url = 'https://raw.github.ibm.com/AI4SCR-DEV/dataset/master/test.csv?token=AACPXJWSHH5GNYJZO4WANW3C7235G'
 
     def __init__(self, path: str = Path('~/tmp/download_data.csv').expanduser()):
@@ -65,7 +82,7 @@ class SimpleCacheDataset(SimpleInMemoryDataset, CacheMixIn):
 
 class SimpleRecipe(SimpleInMemoryDataset, RecipeMixIn):
 
-    def __init__(self, recipe = None):
+    def __init__(self, recipe=None):
         self.recipe = recipe
         super().__init__()
 

@@ -39,7 +39,7 @@ except FileNotFoundError:
     VCS_REQUIREMENTS = []
 
 setup(
-    name="dataset",
+    name="ai4scr-dataset",
     version=read_version("dataset/__init__.py"),  # single place for version
     description="Generic dataset package.",
     long_description=open("README.md").read(),
