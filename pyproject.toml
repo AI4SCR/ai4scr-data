@@ -8,16 +8,14 @@ requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "AI4SCRData"
+name = "ai4scr-data-utility"
+version = "0.0.1"
 description = "Utilities to harmonise data workflows"
 authors = [
-    { name = "Adriano Martinelli", email = "art@zurich.ibm.com" },
+  { name = "Adriano Martinelli", email = "art@zurich.ibm.com" },
 ]
 readme = "README.md"
 requires-python = ">=3.7, <3.11"
-dependencies = ["click"]
-dynamic = ["version"]
-version = "0.1.0"
 
 [project.optional-dependencies]
 test = [
