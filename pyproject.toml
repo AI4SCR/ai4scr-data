@@ -1,3 +1,50 @@
+# configuration approach followed:
+# - whenever possible, prefer pyproject.toml
+# - for configurations insufficiently supported by pyproject.toml, use setup.cfg instead
+# - setup.py discouraged; minimal stub included only for compatibility with legacy tools
+
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AI4SCRData"
+description = "Utilities to harmonise data workflows"
+authors = [
+    { name = "Adriano Martinelli", email = "art@zurich.ibm.com" },
+]
+readme = "README.md"
+requires-python = ">=3.7, <3.11"
+dependencies = ["click"]
+dynamic = ["version"]
+version = "0.1.0"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "black",
+    "flake8",
+    "pep8-naming",
+    "mypy",
+    "sphinx",
+    "sphinx-autodoc-typehints",
+    "better-apidoc",
+    "six",
+    "sphinx_rtd_theme",
+    "myst-parser",
+]
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+
+[project.urls]
+repository = "https://github.com/AI4SCR/ai4scr-datasets"
+
 [tool.black]
 line-length = 88
 skip-string-normalization = false
@@ -11,3 +58,11 @@ use_parentheses = true
 ensure_newline_before_comments = true
 line_length = 88
 force_to_top = ["rdkit", "scikit-learn"]
+
+[tool.mypy]
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "pytest.*"
+ignore_missing_imports = true
+
